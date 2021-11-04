@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtWidgets import (QApplication, QDialog, QMainWindow, QFileDialog, QMessageBox)
+from PyQt5.QtWidgets import (QDialog, QMainWindow, QFileDialog, QMessageBox)
 
 from logic_methods import *
 from ui.app_main_window import Ui_MainWindow
@@ -120,10 +120,3 @@ class PDFMergerWindow(QDialog, Ui_PDFMerger):
             return_value = message_box.exec()
             if return_value == QMessageBox.Ok:
                 message_box.close()
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
