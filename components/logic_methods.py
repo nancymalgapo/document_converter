@@ -1,6 +1,5 @@
 import os
 import comtypes.client
-import glob
 import win32com.client
 
 from fpdf import FPDF
