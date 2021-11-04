@@ -17,6 +17,15 @@ class ParentWindowClass(QDialog):
     def _connect_signals_and_slots(self):
         pass
 
+    def _open_file_dialog(self):
+        pass
+
+    def _save_file_to_location(self):
+        pass
+
+    def _show_converter_dialog(self):
+        pass
+
 
 class ConvertToPDFWindow(ParentWindowClass, Ui_WordToPDF):
     def __init__(self):
@@ -42,7 +51,7 @@ class ConvertToPDFWindow(ParentWindowClass, Ui_WordToPDF):
         if check:
             ext_file = os.path.splitext(self._output_file)[1]
             self._converter_ui.output_line_edit.setText("{0}.pdf".format(self._output_file)
-                                                       if ext_file != '.pdf' else self._output_file)
+                                                        if ext_file != '.pdf' else self._output_file)
             self._output_file = self._converter_ui.output_line_edit.text()
 
     def _show_converter_dialog(self):
@@ -86,7 +95,7 @@ class ConvertToDocWindow(ParentWindowClass, Ui_PDFToWord):
         if check:
             ext_file = os.path.splitext(self._output_file)[1]
             self._converter_ui.output_line_edit.setText("{0}.docx".format(self._output_file)
-                                                       if ext_file != '.docx' else self._output_file)
+                                                        if ext_file != '.docx' else self._output_file)
             self._output_file = self._converter_ui.output_line_edit.text()
 
     def _show_converter_dialog(self):
