@@ -27,12 +27,31 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="4" column="1">
-     <widget class="QPushButton" name="proceed_button">
-      <property name="text">
-       <string>Proceed</string>
+    <item row="1" column="0">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-     </widget>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="4" column="1">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
     </item>
     <item row="1" column="1">
      <widget class="QRadioButton" name="word_to_pdf_option">
@@ -41,8 +60,8 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <spacer name="horizontalSpacer">
+    <item row="1" column="2">
+     <spacer name="horizontalSpacer_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -68,37 +87,25 @@
      </spacer>
     </item>
     <item row="3" column="1">
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="2" column="1">
      <widget class="QRadioButton" name="pdf_merger_option">
       <property name="text">
        <string>PDF Merger</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+    <item row="5" column="1">
+     <widget class="QPushButton" name="proceed_button">
+      <property name="text">
+       <string>Proceed</string>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QRadioButton" name="pdf_to_word_button">
+      <property name="text">
+       <string>PDF to Word Document</string>
       </property>
-     </spacer>
+     </widget>
     </item>
    </layout>
   </widget>

@@ -1,5 +1,7 @@
 import os
 import comtypes.client
+import glob
+import win32com.client
 
 from fpdf import FPDF
 from PyPDF2 import PdfFileMerger
@@ -32,8 +34,20 @@ def convert_to_pdf(input_file, output_file):
         return False
 
 
-def pdf_to_word(input_file, output_file):
-    print('Done converting {0} to {1}'.format(input_file, output_file))
+def convert_to_doc(input_file, output_file):
+    try:
+        word = win32com.client.Dispatch("Word.Application")
+        word.visible = 0
+
+        worker = word.Documents.Open(input_file)
+        worker.SaveAs2(output_file, FileFormat=16)
+        worker.Close()
+
+        word.Quit()
+
+        return True
+    except Exception as error:
+        return str(error)
 
 
 def merge_pdfs(pdf_list, output_pdf_name):
