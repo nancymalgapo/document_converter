@@ -10,7 +10,6 @@ from ui.image_to_pdf import Ui_ImageToPDF
 
 
 class ParentWindowClass(QDialog):
-    PATH_TO_TESSERACT = "C:\\Users\\nancy.malgapo\\AppData\\Local\\Programs\\Tesseract-OCR\\tesseract.exe"
 
     def __init__(self):
         super().__init__()
@@ -76,7 +75,7 @@ class ConvertToPDFWindow(ParentWindowClass, Ui_WordToPDF):
             self._output_file = self._converter_ui.output_line_edit.text()
 
     def _show_dialog(self):
-        self._show_converter_dialog(convert_to_pdf, "File is successfully converted.",
+        self._show_converter_dialog(convert_to_pdf, "File is successfully converted to PDF file.",
                                     "File conversion failed. Please check and try again.")
 
 
@@ -106,7 +105,7 @@ class ConvertToDocWindow(ParentWindowClass, Ui_PDFToWord):
             self._output_file = self._converter_ui.output_line_edit.text()
 
     def _show_dialog(self):
-        self._show_converter_dialog(convert_to_doc, "File is successfully converted.",
+        self._show_converter_dialog(convert_to_doc, "File is successfully converted to Word Document.",
                                     "File conversion failed. Please check and try again.")
 
 
