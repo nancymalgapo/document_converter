@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow
 
-from components.converter_window import ConvertToDocWindow, ConvertToPDFWindow
+from components.converter_window import ConvertToDocWindow, ConvertToPDFWindow, ConvertFromImageToPDFWindow
 from components.pdf_merger_window import PDFMergerWindow
 from ui.app_main_window import Ui_MainWindow
 
@@ -12,6 +12,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._main_ui.setupUi(self)
         self._word_to_pdf_window = ConvertToPDFWindow()
         self._pdf_to_word_window = ConvertToDocWindow()
+        self._image_text_to_pdf_window = ConvertFromImageToPDFWindow()
         self._pdf_merger_window = PDFMergerWindow()
         self._connect_signals_and_slots()
 
@@ -23,5 +24,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._word_to_pdf_window.show()
         elif self._main_ui.pdf_to_word_button.isChecked():
             self._pdf_to_word_window.show()
+        elif self._main_ui.image_to_pdf_button.isChecked():
+            self._image_text_to_pdf_window.show()
         else:
             self._pdf_merger_window.show()

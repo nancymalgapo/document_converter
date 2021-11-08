@@ -6,9 +6,12 @@ from PyQt5.QtWidgets import (QDialog, QFileDialog, QMessageBox)
 from components.logic_methods import convert_to_doc, convert_to_pdf
 from ui.word_to_pdf import Ui_WordToPDF
 from ui.pdf_to_word import Ui_PDFToWord
+from ui.image_to_pdf import Ui_ImageToPDF
 
 
 class ParentWindowClass(QDialog):
+    PATH_TO_TESSERACT = "C:\\Users\\nancy.malgapo\\AppData\\Local\\Programs\\Tesseract-OCR\\tesseract.exe"
+
     def __init__(self):
         super().__init__()
         self._input_file = None
@@ -23,8 +26,26 @@ class ParentWindowClass(QDialog):
     def _save_file_to_location(self):
         pass
 
-    def _show_converter_dialog(self):
+    def _show_dialog(self):
         pass
+
+    def _show_converter_dialog(self, procedure, success_msg, error_msg):
+        process = procedure(self._input_file, self._output_file)
+        message_box = QMessageBox()
+        message_box.setStandardButtons(QMessageBox.Ok)
+        if process:
+            message_box.setIcon(QMessageBox.Information)
+            message_box.setText("Operation Success")
+            message_box.setWindowTitle(success_msg)
+            message_box.exec()
+            sys.exit()
+        else:
+            message_box.setIcon(QMessageBox.Warning)
+            message_box.setText("Operation Failed")
+            message_box.setWindowTitle(error_msg)
+            return_value = message_box.exec()
+            if return_value == QMessageBox.Ok:
+                message_box.close()
 
 
 class ConvertToPDFWindow(ParentWindowClass, Ui_WordToPDF):
@@ -37,7 +58,7 @@ class ConvertToPDFWindow(ParentWindowClass, Ui_WordToPDF):
     def _connect_signals_and_slots(self):
         self._converter_ui.browse_input_button.clicked.connect(self._open_file_dialog)
         self._converter_ui.browse_output_button.clicked.connect(self._save_file_to_location)
-        self._converter_ui.convert_button.clicked.connect(self._show_converter_dialog)
+        self._converter_ui.convert_button.clicked.connect(self._show_dialog)
 
     def _open_file_dialog(self):
         self._input_file, check = QFileDialog.getOpenFileName(self, 'Open File', '',
@@ -54,23 +75,9 @@ class ConvertToPDFWindow(ParentWindowClass, Ui_WordToPDF):
                                                         if ext_file != '.pdf' else self._output_file)
             self._output_file = self._converter_ui.output_line_edit.text()
 
-    def _show_converter_dialog(self):
-        process = convert_to_pdf(self._input_file, self._output_file)
-        message_box = QMessageBox()
-        message_box.setStandardButtons(QMessageBox.Ok)
-        if process:
-            message_box.setIcon(QMessageBox.Information)
-            message_box.setText("Operation Success")
-            message_box.setWindowTitle("File is successfully converted.")
-            message_box.exec()
-            sys.exit()
-        else:
-            message_box.setIcon(QMessageBox.Warning)
-            message_box.setText("Operation Failed")
-            message_box.setWindowTitle("File conversion failed. Please check and try again.")
-            return_value = message_box.exec()
-            if return_value == QMessageBox.Ok:
-                message_box.close()
+    def _show_dialog(self):
+        self._show_converter_dialog(convert_to_pdf, "File is successfully converted.",
+                                    "File conversion failed. Please check and try again.")
 
 
 class ConvertToDocWindow(ParentWindowClass, Ui_PDFToWord):
@@ -83,7 +90,7 @@ class ConvertToDocWindow(ParentWindowClass, Ui_PDFToWord):
     def _connect_signals_and_slots(self):
         self._converter_ui.browse_input_button.clicked.connect(self._open_file_dialog)
         self._converter_ui.browse_output_button.clicked.connect(self._save_file_to_location)
-        self._converter_ui.convert_button.clicked.connect(self._show_converter_dialog)
+        self._converter_ui.convert_button.clicked.connect(self._show_dialog)
 
     def _open_file_dialog(self):
         self._input_file, check = QFileDialog.getOpenFileName(self, 'Open File', '', 'PDF Files (*.pdf)')
@@ -98,20 +105,38 @@ class ConvertToDocWindow(ParentWindowClass, Ui_PDFToWord):
                                                         if ext_file != '.docx' else self._output_file)
             self._output_file = self._converter_ui.output_line_edit.text()
 
-    def _show_converter_dialog(self):
-        process = convert_to_doc(self._input_file, self._output_file)
-        message_box = QMessageBox()
-        message_box.setStandardButtons(QMessageBox.Ok)
-        if process is True:
-            message_box.setIcon(QMessageBox.Information)
-            message_box.setText("Operation Success")
-            message_box.setWindowTitle("File is successfully converted.")
-            message_box.exec()
-            sys.exit()
-        else:
-            message_box.setIcon(QMessageBox.Warning)
-            message_box.setText("Operation Failed")
-            message_box.setWindowTitle("File conversion failed. Please check and try again.")
-            return_value = message_box.exec()
-            if return_value == QMessageBox.Ok:
-                message_box.close()
+    def _show_dialog(self):
+        self._show_converter_dialog(convert_to_doc, "File is successfully converted.",
+                                    "File conversion failed. Please check and try again.")
+
+
+class ConvertFromImageToPDFWindow(ParentWindowClass, Ui_ImageToPDF):
+    def __init__(self):
+        super().__init__()
+        self._converter_ui = Ui_ImageToPDF()
+        self._converter_ui.setupUi(self)
+        self._connect_signals_and_slots()
+
+    def _connect_signals_and_slots(self):
+        self._converter_ui.browse_input_button.clicked.connect(self._open_file_dialog)
+        self._converter_ui.browse_output_button.clicked.connect(self._save_file_to_location)
+        self._converter_ui.convert_button.clicked.connect(self._show_dialog)
+
+    def _open_file_dialog(self):
+        self._input_file, check = QFileDialog.getOpenFileNames(self, 'Select Images', '',
+                                                               'PNG Files (*.png);;JPEG Files (*.jpeg);;'
+                                                               'JPG Files (*.jpg)')
+        if check:
+            self._converter_ui.input_line_edit.setText(str(self._input_file)[1:-1])
+
+    def _save_file_to_location(self):
+        self._output_file, check = QFileDialog.getSaveFileName(self, 'Save File', '', 'PDF File (*.pdf)')
+        if check:
+            ext_file = os.path.splitext(self._output_file)[1]
+            self._converter_ui.output_line_edit.setText("{0}.pdf".format(self._output_file)
+                                                        if ext_file != '.pdf' else self._output_file)
+            self._output_file = self._converter_ui.output_line_edit.text()
+
+    def _show_dialog(self):
+        self._show_converter_dialog(convert_to_pdf, "Successfully converted image/s to PDF File.",
+                                    "File conversion failed. Please check and try again.")
