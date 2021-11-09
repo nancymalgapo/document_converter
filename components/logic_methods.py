@@ -9,21 +9,7 @@ from PyPDF2 import PdfFileMerger
 
 
 def convert_to_pdf(input_file, output_file):
-    if isinstance(input_file, list):
-        custom_config = '-l eng --oem 1 --psm 3'
-        # Replace here the tesseract executable location to pytesseract library
-        # For most installations the path would be C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe.
-        pytesseract.tesseract_cmd = 'path_to_tesseract'
-        for image_path in input_file:
-            if os.path.splitext(image_path)[1].lower() in ['.png', '.jpg', '.jpeg']:
-                img = cv2.imread(image_path)
-                text = pytesseract.image_to_string(img, config=custom_config)
-                pdf = _set_pdf_settings()
-                pdf.multi_cell(170, 10, txt=text, align='L')
-                pdf.output(output_file)
-
-        return True
-    elif isinstance(input_file, str):
+    if isinstance(input_file, str):
         if os.path.splitext(input_file)[1] in ['.doc', '.docx']:
             word = comtypes.client.CreateObject('Word.Application')
             doc = word.Documents.Open(input_file)
@@ -39,6 +25,18 @@ def convert_to_pdf(input_file, output_file):
                 pdf.multi_cell(170, 10, txt=word, align='L')
 
             pdf.output(output_file)
+            return True
+        elif os.path.splitext(input_file)[1].lower() in ['.png', '.jpg', '.jpeg']:
+            custom_config = '-l eng --oem 1 --psm 3'
+            # Replace here the tesseract executable location to pytesseract library
+            # For most installations the path would be C:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe.
+            pytesseract.tesseract_cmd = 'path_to_tesseract_exe'
+            pdf = _set_pdf_settings()
+            img = cv2.imread(input_file)
+            text = pytesseract.image_to_string(img, config=custom_config)
+            pdf.multi_cell(170, 10, txt=text, align='L')
+            pdf.output(output_file)
+
             return True
     else:
         return False

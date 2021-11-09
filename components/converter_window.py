@@ -122,9 +122,9 @@ class ConvertFromImageToPDFWindow(ParentWindowClass, Ui_ImageToPDF):
         self._converter_ui.convert_button.clicked.connect(self._show_dialog)
 
     def _open_file_dialog(self):
-        self._input_file, check = QFileDialog.getOpenFileNames(self, 'Select Images', '',
-                                                               'PNG Files (*.png);;JPEG Files (*.jpeg);;'
-                                                               'JPG Files (*.jpg)')
+        self._input_file, check = QFileDialog.getOpenFileName(self, 'Select Picture', '',
+                                                              'PNG Files (*.png);;JPEG Files (*.jpeg);;'
+                                                              'JPG Files (*.jpg)')
         if check:
             self._converter_ui.input_line_edit.setText(str(self._input_file)[1:-1])
 

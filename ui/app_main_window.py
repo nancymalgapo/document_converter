@@ -56,4 +56,4 @@ class Ui_MainWindow(object):
         self.pdf_to_word_button.setText(_translate("MainWindow", "PDF to Word Document"))
         self.word_to_pdf_option.setText(_translate("MainWindow", "Word Document to PDF"))
         self.proceed_button.setText(_translate("MainWindow", "Proceed"))
-        self.image_to_pdf_button.setText(_translate("MainWindow", "Text from Image/s to PDF"))
+        self.image_to_pdf_button.setText(_translate("MainWindow", "Text from Image to PDF"))
